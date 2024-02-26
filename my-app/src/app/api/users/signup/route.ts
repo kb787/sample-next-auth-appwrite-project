@@ -1,5 +1,5 @@
 import {Connection} from '@/app/dbConfig/config' ;
-import userProfileModel from '@/app/models/userModel' ;
+import userAuthModel from '@/app/models/userModel';
 import { NextRequest,NextResponse } from 'next/server';
 import bcryptjs from 'bcryptjs' ; 
 
@@ -12,7 +12,7 @@ export async function POST(request:NextRequest){
         const reqBody = await request.json() ;
         const {userName,userEmail,userPassword} = reqBody ;
         console.log(reqBody) ;
-        let prevEmail = await userProfileModel.findOne({userEmail}) ;
+        let prevEmail = await userAuthModel.findOne({userEmail}) ;
         if(prevEmail){
             return NextResponse.json({error:"User already exists"}, {status:400}) ;
         }

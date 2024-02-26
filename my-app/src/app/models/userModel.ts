@@ -1,10 +1,10 @@
-const mongoose = require('mongoose') ;
-
-
-const userSchema = mongoose.Schema(
+import mongoose from 'mongoose' ;
+import {InferSchemaType,Schema,model} from "mongoose" ;
+const userAuthSchema = new Schema(
     {
         userName : {
-            type:String 
+            type:String ,
+            unique:true
         } ,
         userEmail : {
             type:String ,
@@ -33,14 +33,9 @@ const userSchema = mongoose.Schema(
         verifyTokenExpiry : {
             type:Date
         }
-
     }
 )
 
-
-if(mongoose.models.users){
-    return mongoose.model('users') ;
-}
-
-userProfileModel = mongoose.model('users',userSchema) ;
-module.exports = userProfileModel ;
+export type userAuth = InferSchemaType<typeof userAuthSchema> ;
+const userAuthModel = model("users",userAuthSchema) ;
+export default userAuthModel ;

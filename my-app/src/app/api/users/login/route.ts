@@ -1,21 +1,23 @@
 import {Connection} from '@/app/dbConfig/config' ;
-import userProfileModel from '@/app/models/userModel' ;
+import userAuthModel from '@/app/models/userModel';
 import { NextRequest,NextResponse } from 'next/server';
 import bcryptjs from 'bcryptjs' ;
 import jwt from 'jsonwebtoken' ;
+import mongoose from 'mongoose' ;
 
-let userProfileModel : any ;
+
+
 Connection()
 export async function POST(request:NextRequest){
      try {
          const reqBody = await request.json() ;
          const {userEmail,userPassword} = reqBody ;
          console.log(reqBody) ;
-         let prevUser = await userProfileModel.findOne({userEmail}) ;
+         let prevUser = await userAuthModel.findOne({userEmail}) ;
          if(!prevUser){
             return NextResponse.json({error:"Unable to find email"},{status:404}) ;
          }
-         const validPassword = await bcryptjs.compare(userPassword,prevUser.userPassword) ; 
+         const validPassword = await bcryptjs.compare(userPassword,prevUser.userPassword as string) ; 
          if(!validPassword) {
             return NextResponse.json({error:"Invalid credentials"}, {status:404}) ;
          }
