@@ -36,6 +36,7 @@ const userAuthSchema = new Schema(
     }
 )
 
+
 export type userAuth = InferSchemaType<typeof userAuthSchema> ;
-const userAuthModel = model("users",userAuthSchema) ;
+const userAuthModel = mongoose.models.users || model<userAuth>("users", userAuthSchema);
 export default userAuthModel ;
